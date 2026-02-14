@@ -47,7 +47,8 @@ export default function DressUpPage() {
   useEffect(() => {
     const init = async () => {
         try {
-            const { wardrobe: data, allItems } = await loadWardrobe('/manifests/wardrobe.yaml');
+            const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+            const { wardrobe: data, allItems } = await loadWardrobe(`${basePath}/manifests/wardrobe.yaml`, basePath);
             
             // Load custom data from DB
             const customChars = await getCharacters();

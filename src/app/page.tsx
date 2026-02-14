@@ -142,7 +142,7 @@ export default function DressUpPage() {
             if (item.uuid === selectedId) {
                 return {
                     ...item,
-                    layer: Math.max(0, item.layer + (direction === 'up' ? 1 : -1))
+                    layer: Math.max(0, item.layer + (direction === 'up' ? 10 : -10))
                 };
             }
             return item;
@@ -587,11 +587,33 @@ export default function DressUpPage() {
            </div>
         </section>
 
-        {/* Right: Background Tools - Hidden on mobile for now to match design or stacked below? Keeping stacked below but it might be off-screen if h-full. 
-            Let's keep it visible but maybe accessible via toggle later. For now, standard flow. 
-        */}
-        <section className="hidden md:flex w-full md:w-[200px] h-auto md:h-[85vh] z-20 order-3 flex-col gap-4">
-             <div className="bg-white/80 backdrop-blur-md p-4 rounded-3xl border border-white shadow-lg flex flex-col gap-4 h-full overflow-y-auto">
+        {/* Background Tools - Bottom bar on mobile, Right sidebar on desktop */}
+        <section className="absolute bottom-0 left-0 right-0 z-20 pointer-events-auto md:static md:w-[200px] md:h-[85vh] md:order-3 md:flex-shrink-0">
+             {/* Mobile: Compact bottom bar */}
+             <div className="flex md:hidden items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-3 border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+                 <ImageIcon size={16} className="text-gray-500 flex-shrink-0" />
+                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-1">
+                     {['#ffffff', '#fff0f5', '#e6e6fa', '#f0f8ff', '#f5f5dc', '#000000'].map(c => (
+                         <button 
+                            key={c}
+                            onClick={() => handleBgColorChange(c)}
+                            className={`w-7 h-7 rounded-full border-2 flex-shrink-0 ${background.value === c ? 'border-pink-500 scale-110' : 'border-gray-200'} shadow-sm transition-all`}
+                            style={{ backgroundColor: c }}
+                         />
+                     ))}
+                     <label className="w-7 h-7 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-pink-400 bg-white flex-shrink-0 relative">
+                         <span className="text-xs text-gray-400">+</span>
+                         <input type="color" className="absolute inset-0 opacity-0 cursor-pointer" onChange={(e) => handleBgColorChange(e.target.value)} />
+                     </label>
+                 </div>
+                 <label className="flex-shrink-0 bg-indigo-50 text-indigo-500 px-3 py-1.5 rounded-full text-xs font-bold cursor-pointer hover:bg-indigo-100 transition-colors">
+                     📷
+                     <input type="file" accept="image/*" className="hidden" onChange={handleBgImageUpload} />
+                 </label>
+             </div>
+
+             {/* Desktop: Full sidebar panel */}
+             <div className="hidden md:flex bg-white/80 backdrop-blur-md p-4 rounded-3xl border border-white shadow-lg flex-col gap-4 h-full overflow-y-auto">
                  <h3 className="font-bold text-gray-700 flex items-center gap-2"><ImageIcon size={18}/> Background</h3>
                  
                  <div className="space-y-2">
@@ -626,7 +648,7 @@ export default function DressUpPage() {
         {/* Layer Controls - Bottom bar on mobile, Right side on desktop */}
         {selectedId && (
             <div className="absolute z-50 bg-white/90 backdrop-blur-sm border border-indigo-100 shadow-lg flex items-center justify-center
-                          bottom-6 left-1/2 -translate-x-1/2 flex-row gap-4 p-2 rounded-full w-auto
+                          bottom-16 left-1/2 -translate-x-1/2 flex-row gap-4 p-2 rounded-full w-auto
                           md:top-1/2 md:right-4 md:left-auto md:bottom-auto md:-translate-y-1/2 md:translate-x-0 md:flex-col md:gap-2 md:p-3 md:rounded-lg">
                 <span className="text-[10px] font-bold text-gray-400 mb-0 md:mb-1 hidden md:block">LAYER</span>
                 <button onMouseDown={() => handleLayerChange('up')} className="p-2 bg-indigo-50 text-indigo-500 rounded-full md:rounded hover:bg-indigo-100 transition shadow-sm" title="Bring Forward">▲</button>

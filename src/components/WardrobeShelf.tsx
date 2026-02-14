@@ -82,16 +82,21 @@ export default function WardrobeShelf({
   };
 
   return (
-    <div className={`flex flex-col h-full bg-[#fff0f5] border-4 rounded-3xl overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] font-medium transition-colors ${isDeleteMode ? 'border-red-300' : 'border-[#ffb6c1]'}`}>
-      {/* Wardrobe Header/Tabs */}
-      <div className="bg-[#ffdae0] px-2 py-3 border-b-4 border-inherit flex items-center gap-2 overflow-x-auto no-scrollbar">
+    <div className={`flex md:flex-col h-full bg-transparent md:bg-[#fff0f5] border-0 md:border-4 rounded-3xl overflow-visible md:overflow-hidden shadow-none md:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] font-medium transition-colors ${isDeleteMode ? 'border-red-300' : 'border-[#ffb6c1]'}`}>
+      
+      {/* Wardrobe Header/Tabs -> Floating Left Sidebar on Mobile, Top Bar on Desktop */}
+      <div className={`
+          pointer-events-auto absolute left-2 top-32 bottom-24 w-16 h-auto overflow-y-auto flex flex-col gap-3 p-2 rounded-full border-2 border-white shadow-lg z-30 no-scrollbar bg-[#ffdae0]
+          md:static md:translate-y-0 md:bg-[#ffdae0] md:w-full md:h-auto md:max-h-none md:flex-row md:items-center md:gap-2 md:overflow-y-hidden md:overflow-x-auto md:border-0 md:border-b-4 md:border-inherit md:py-3 md:px-2 md:rounded-none md:shadow-none
+      `}>
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => onSelectCategory(cat)}
-            disabled={isDeleteMode} // Disable switching categories in delete mode to avoid confusion, or allowed? Allowed is fine but clearing selection might be needed. Let's allowing it but keep selection.
+            disabled={isDeleteMode} 
+            title={cat}
             className={`
-                flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105 flex-shrink-0
+                flex items-center justify-center md:justify-start gap-2 p-2 md:px-4 md:py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105 flex-shrink-0 w-full aspect-square md:w-auto md:aspect-auto
                 ${
                   selectedCategory === cat
                     ? 'bg-white text-[#ff69b4] shadow-md ring-2 ring-[#ff69b4] ring-offset-1'
@@ -101,20 +106,23 @@ export default function WardrobeShelf({
             `}
           >
             <CategoryIcon category={cat} />
-            <span className="capitalize">{cat}</span>
+            <span className="capitalize hidden md:inline">{cat}</span>
           </button>
         ))}
       </div>
 
-      {/* Main Closet Area */}
-      <div className="flex-1 overflow-y-auto p-4 bg-[#fff0f5] relative">
-        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ff69b4 2px, transparent 2px)', backgroundSize: '20px 20px' }} />
+      {/* Main Closet Area -> Floating Right Sidebar on Mobile, Main Content on Desktop */}
+      <div className={`
+          pointer-events-auto absolute right-2 top-32 bottom-24 w-24 h-auto overflow-y-auto bg-white/90 backdrop-blur-sm rounded-xl border-2 border-white shadow-lg z-30 p-2 no-scrollbar
+          md:static md:translate-y-0 md:bg-[#fff0f5] md:w-auto md:h-full md:flex-1 md:border-0 md:shadow-none md:p-4 md:rounded-none
+      `}>
+        <div className="absolute inset-0 opacity-10 pointer-events-none md:block hidden" style={{ backgroundImage: 'radial-gradient(#ff69b4 2px, transparent 2px)', backgroundSize: '20px 20px' }} />
         
-        <div className="relative z-10">
+        <div className="relative z-10 h-full">
             {/* Action Bar */}
-            <div className={`flex justify-between items-center mb-4 p-2 rounded-xl backdrop-blur-sm border ${isDeleteMode ? 'bg-red-50 border-red-200' : 'bg-white/60 border-white/50'}`}>
+            <div className={`flex justify-between items-center mb-4 p-2 rounded-xl backdrop-blur-sm border ${isDeleteMode ? 'bg-red-50 border-red-200' : 'bg-white/60 border-white/50'} ${!isDeleteMode ? 'hidden md:flex' : ''}`}>
               <h3 className={`font-bold capitalize flex items-center gap-2 ${isDeleteMode ? 'text-red-500' : 'text-[#db7093]'}`}>
-                {isDeleteMode ? 'Select to Remove' : <><CategoryIcon category={selectedCategory} /> {selectedCategory}</>}
+                {isDeleteMode ? 'Remove' : <><CategoryIcon category={selectedCategory} /> {selectedCategory}</>}
               </h3>
               
               <div className="flex gap-2">
@@ -125,7 +133,7 @@ export default function WardrobeShelf({
                             onClick={() => setIsUploadOpen(!isUploadOpen)}
                             className="bg-[#87ceeb] hover:bg-[#5f9ea0] text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors flex items-center gap-1"
                             >
-                            <Upload size={14} /> Add
+                            <Upload size={14} /> <span className="hidden lg:inline">Add</span>
                         </button>
                         <button
                             onClick={() => setIsDeleteMode(true)}
@@ -148,7 +156,7 @@ export default function WardrobeShelf({
                             disabled={selectedToDelete.length === 0}
                             className="bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors flex items-center gap-1"
                         >
-                            Delete ({selectedToDelete.length})
+                            Del ({selectedToDelete.length})
                         </button>
                     </>
                   )}
@@ -157,7 +165,7 @@ export default function WardrobeShelf({
 
             {/* Upload Panel - Only if not deleting */}
             {!isDeleteMode && isUploadOpen && (
-              <div className="mb-4 p-4 bg-white rounded-2xl border-2 border-[#87ceeb] shadow-md animate-in fade-in slide-in-from-top-2">
+              <div className="mb-4 p-4 bg-white rounded-2xl border-2 border-[#87ceeb] shadow-md animate-in fade-in slide-in-from-top-2 absolute top-10 left-0 right-0 z-50 md:static">
                 <div className="flex justify-between mb-2">
                     <span className="text-sm font-bold text-gray-600">New Item</span>
                     <button onClick={() => setIsUploadOpen(false)}><X size={16} className="text-gray-400"/></button>
@@ -165,7 +173,7 @@ export default function WardrobeShelf({
                 <input type="file" accept="image/png" onChange={handleFileChange} className="block w-full text-xs mb-2 text-gray-500" />
                 {uploadFile && (
                     <button onClick={handleUploadSubmit} className="w-full bg-[#87ceeb] text-white py-1 rounded-lg font-bold text-xs mt-2">
-                        Upload & Wear
+                        Wear
                     </button>
                 )}
               </div>
@@ -173,12 +181,12 @@ export default function WardrobeShelf({
 
             {/* Grid */}
             {filteredItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-[#ffb6c1] space-y-2">
-                <Shirt size={48} className="opacity-50" />
-                <p className="font-bold">Empty Shelf!</p>
+            <div className="flex flex-col items-center justify-center py-20 text-[#ffb6c1] space-y-2 h-full">
+                <Shirt size={24} className="opacity-50 md:w-12 md:h-12" />
+                <p className="font-bold text-xs md:text-base">Empty!</p>
             </div>
             ) : (
-            <div className="grid grid-cols-3 gap-3">
+            <div className={`grid gap-2 grid-cols-1 md:grid-cols-3 auto-rows-min`}>
                 {filteredItems.map((item) => {
                     const isSelectedToDelete = selectedToDelete.includes(item.id);
                     return (
@@ -189,7 +197,7 @@ export default function WardrobeShelf({
                                 group relative aspect-square bg-white rounded-xl border-2 
                                 ${isDeleteMode 
                                     ? (isSelectedToDelete ? 'border-red-500 bg-red-50' : 'border-dashed border-gray-300')
-                                    : 'border-transparent hover:border-[#ff69b4] hover:shadow-lg'
+                                    : 'border-transparent md:hover:border-[#ff69b4] md:hover:shadow-lg'
                                 }
                                 shadow-sm transition-all cursor-pointer 
                                 flex items-center justify-center overflow-hidden
@@ -203,9 +211,9 @@ export default function WardrobeShelf({
                                 className={`relative w-full h-full object-contain p-2 transition-transform duration-300 ${!isDeleteMode ? 'group-hover:scale-110' : ''}`}
                             />
                             
-                            {/* "Wear" Badge on Hover */}
+                            {/* "Wear" Badge on Hover - Desktop Only */}
                             {!isDeleteMode && (
-                                <div className="absolute bottom-1 bg-[#ff69b4] text-white text-[10px] px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow-sm">
+                                <div className="absolute bottom-1 bg-[#ff69b4] text-white text-[10px] px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow-sm hidden md:block">
                                     Wear
                                 </div>
                             )}

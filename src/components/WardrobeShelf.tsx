@@ -86,7 +86,7 @@ export default function WardrobeShelf({
       
       {/* Wardrobe Header/Tabs -> Floating Left Sidebar on Mobile, Top Bar on Desktop */}
       <div className={`
-          pointer-events-auto absolute left-2 top-32 bottom-24 w-16 h-auto overflow-y-auto flex flex-col gap-3 p-2 rounded-full border-2 border-white shadow-lg z-30 no-scrollbar bg-[#ffdae0]
+          pointer-events-auto absolute left-2 top-1/2 -translate-y-[60%] w-16 overflow-y-auto flex flex-col gap-3 p-2 rounded-full border-2 border-white shadow-lg z-30 no-scrollbar bg-[#ffdae0]
           md:static md:translate-y-0 md:bg-[#ffdae0] md:w-full md:h-auto md:max-h-none md:flex-row md:items-center md:gap-2 md:overflow-y-hidden md:overflow-x-auto md:border-0 md:border-b-4 md:border-inherit md:py-3 md:px-2 md:rounded-none md:shadow-none
       `}>
         {categories.map((cat) => (
@@ -113,7 +113,7 @@ export default function WardrobeShelf({
 
       {/* Main Closet Area -> Floating Right Sidebar on Mobile, Main Content on Desktop */}
       <div className={`
-          pointer-events-auto absolute right-2 top-32 bottom-24 w-24 h-auto overflow-y-auto bg-white/90 backdrop-blur-sm rounded-xl border-2 border-white shadow-lg z-30 p-2 no-scrollbar
+          pointer-events-auto absolute right-2 top-4 bottom-32 w-24 h-auto overflow-y-auto bg-white/90 backdrop-blur-sm rounded-xl border-2 border-white shadow-lg z-30 p-2 no-scrollbar
           md:static md:translate-y-0 md:bg-[#fff0f5] md:w-auto md:h-full md:flex-1 md:border-0 md:shadow-none md:p-4 md:rounded-none
       `}>
         <div className="absolute inset-0 opacity-10 pointer-events-none md:block hidden" style={{ backgroundImage: 'radial-gradient(#ff69b4 2px, transparent 2px)', backgroundSize: '20px 20px' }} />

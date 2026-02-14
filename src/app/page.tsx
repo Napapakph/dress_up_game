@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { toPng } from 'html-to-image';
 import jsPDF from 'jspdf';
 import { QRCodeCanvas } from 'qrcode.react';
-// @ts-ignore
 import LZString from 'lz-string';
 import { 
   RotateCcw, 
@@ -14,7 +13,7 @@ import {
   Shirt, 
   AlertCircle,
   Trash2,
-  Edit,
+
   Pencil,
   Image as ImageIcon
 } from 'lucide-react';
@@ -42,7 +41,7 @@ export default function DressUpPage() {
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportUrl, setExportUrl] = useState<string | null>(null);
   const [exportType, setExportType] = useState<'png' | 'pdf'>('png');
-  const [shareLink, setShareLink] = useState<string>('');
+
 
   // Load Wardrobe & URL State & DB
   useEffect(() => {
@@ -119,12 +118,12 @@ export default function DressUpPage() {
   const currentCharacter = wardrobe ? wardrobe.characters[selectedGender] : null;
 
   // Sync share link when state changes
-  useEffect(() => {
+  const shareLink = useMemo(() => {
     if (typeof window !== 'undefined') {
        const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(placedItems));
-       const url = `${window.location.origin}${window.location.pathname}?s=${compressed}`;
-       setShareLink(url);
+       return `${window.location.origin}${window.location.pathname}?s=${compressed}`;
     }
+    return '';
   }, [placedItems]);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -476,18 +475,19 @@ export default function DressUpPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fff5f8] text-gray-900 font-sans selection:bg-pink-200">
-      {/* Header */}
-      <header className="px-6 py-3 flex flex-col sm:flex-row justify-between items-center z-10 gap-4 bg-white/50 backdrop-blur-sm border-b border-pink-100 sticky top-0">
+      {/* Header - Title always, controls only on desktop */}
+      <header className="px-4 md:px-6 py-3 flex justify-between items-center z-10 gap-4 bg-white/50 backdrop-blur-sm border-b border-pink-100 sticky top-0">
         <div className="flex items-center gap-2">
           <div className="p-2 bg-pink-100 rounded-full text-pink-500">
              <Shirt size={24} />
           </div>
-          <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500" style={{ letterSpacing: '-0.5px' }}>
+          <h1 className="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500" style={{ letterSpacing: '-0.5px' }}>
             DRESS UP GAME
           </h1>
         </div>
         
-        <div className="flex items-center gap-2 bg-white p-1.5 rounded-full shadow-sm border border-pink-100 overflow-x-auto max-w-[50vw] sm:max-w-none no-scrollbar">
+        {/* Desktop: Character selector */}
+        <div className="hidden md:flex items-center gap-2 bg-white p-1.5 rounded-full shadow-sm border border-pink-100 overflow-x-auto max-w-none no-scrollbar">
           {Object.values(wardrobe.characters).map((char) => {
              const isCustom = char.id.startsWith('custom_');
              const isSelected = selectedGender === char.id;
@@ -504,7 +504,7 @@ export default function DressUpPage() {
              >
                <span>{char.name}</span>
                
-               {/* Controls for Active Character (Default OR Custom) */}
+               {/* Controls for Active Character */}
                {isSelected && (
                    <div className="flex items-center gap-1 ml-2 pl-2 border-l border-white/30">
                        <button 
@@ -535,7 +535,8 @@ export default function DressUpPage() {
           </label>
         </div>
 
-        <div className="flex gap-2">
+        {/* Desktop: Export buttons */}
+        <div className="hidden md:flex gap-2">
           <button onClick={handleReset} className="p-2 text-gray-400 hover:text-pink-500 hover:bg-pink-50 rounded-full transition" title="Reset Clothing">
             <RotateCcw size={20} />
           </button>
@@ -548,6 +549,58 @@ export default function DressUpPage() {
           </button>
         </div>
       </header>
+
+      {/* Mobile Bottom Toolbar - Character selector + Export */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-pink-100 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        {/* Row 1: Character selector */}
+        <div className="flex items-center gap-2 px-3 pt-2 pb-1 overflow-x-auto no-scrollbar">
+          {Object.values(wardrobe.characters).map((char) => {
+             const isCustom = char.id.startsWith('custom_');
+             const isSelected = selectedGender === char.id;
+             return (
+             <div 
+               key={char.id}
+               className={`relative flex items-center px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer select-none flex-shrink-0 ${
+                 isSelected
+                   ? 'bg-gradient-to-r from-pink-400 to-purple-400 text-white shadow-md' 
+                   : 'text-gray-400 bg-gray-100'
+               }`}
+               onClick={() => setSelectedGender(char.id)}
+             >
+               <span>{char.name}</span>
+               {isSelected && (
+                   <div className="flex items-center gap-0.5 ml-1.5 pl-1.5 border-l border-white/30">
+                       <button onClick={(e) => { e.stopPropagation(); handleRenameCharacter(); }} className="p-0.5 hover:bg-white/20 rounded-full"><Pencil size={10} /></button>
+                       <label className="p-0.5 hover:bg-white/20 rounded-full cursor-pointer relative">
+                           <ImageIcon size={10} />
+                           <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleUpdateCharacterImage} onClick={e => e.stopPropagation()} />
+                       </label>
+                       <button onClick={(e) => { e.stopPropagation(); handleDeleteCharacter(); }} className="p-0.5 hover:bg-red-500/20 rounded-full">
+                           {isCustom ? <Trash2 size={10} /> : <RotateCcw size={10} />}
+                       </button>
+                   </div>
+               )}
+             </div>
+          )})}
+          <label className="cursor-pointer px-3 py-1.5 rounded-full text-xs font-bold text-indigo-500 border border-dashed border-indigo-200 flex items-center gap-0.5 flex-shrink-0 relative">
+              <span className="text-sm leading-none">+</span>
+              <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleAddCharacter} />
+          </label>
+        </div>
+        {/* Row 2: Actions */}
+        <div className="flex items-center justify-center gap-3 px-3 pb-2 pt-1">
+          <button onClick={handleReset} className="p-1.5 text-gray-400 hover:text-pink-500 rounded-full transition" title="Reset">
+            <RotateCcw size={16} />
+          </button>
+          <div className="h-4 w-px bg-gray-200" />
+          <button onClick={() => generateExport('png')} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-white text-indigo-500 border border-indigo-100 rounded-full shadow-sm">
+            <Download size={14} /> PNG
+          </button>
+          <button onClick={() => generateExport('pdf')} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-indigo-500 text-white rounded-full shadow-sm">
+            <FileText size={14} /> PDF
+          </button>
+        </div>
+      </div>
 
       {/* Main Layout */}
       <main className="flex-1 flex flex-col md:flex-row overflow-hidden relative p-0 md:p-4 gap-0 md:gap-6 items-center justify-center">
@@ -588,7 +641,7 @@ export default function DressUpPage() {
         </section>
 
         {/* Background Tools - Bottom bar on mobile, Right sidebar on desktop */}
-        <section className="absolute bottom-0 left-0 right-0 z-20 pointer-events-auto md:static md:w-[200px] md:h-[85vh] md:order-3 md:flex-shrink-0">
+        <section className="absolute bottom-20 left-0 right-0 z-20 pointer-events-auto md:bottom-0 md:static md:w-[200px] md:h-[85vh] md:order-3 md:flex-shrink-0">
              {/* Mobile: Compact bottom bar */}
              <div className="flex md:hidden items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-3 border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
                  <ImageIcon size={16} className="text-gray-500 flex-shrink-0" />
@@ -648,7 +701,7 @@ export default function DressUpPage() {
         {/* Layer Controls - Bottom bar on mobile, Right side on desktop */}
         {selectedId && (
             <div className="absolute z-50 bg-white/90 backdrop-blur-sm border border-indigo-100 shadow-lg flex items-center justify-center
-                          bottom-16 left-1/2 -translate-x-1/2 flex-row gap-4 p-2 rounded-full w-auto
+                          bottom-32 left-1/2 -translate-x-1/2 flex-row gap-4 p-2 rounded-full w-auto
                           md:top-1/2 md:right-4 md:left-auto md:bottom-auto md:-translate-y-1/2 md:translate-x-0 md:flex-col md:gap-2 md:p-3 md:rounded-lg">
                 <span className="text-[10px] font-bold text-gray-400 mb-0 md:mb-1 hidden md:block">LAYER</span>
                 <button onMouseDown={() => handleLayerChange('up')} className="p-2 bg-indigo-50 text-indigo-500 rounded-full md:rounded hover:bg-indigo-100 transition shadow-sm" title="Bring Forward">▲</button>
@@ -688,16 +741,8 @@ export default function DressUpPage() {
 // Sub-component to handle IP replacement logic cleanly
 const ExportModalContent = ({ exportUrl }: { exportUrl: string }) => {
     const [localIp, setLocalIp] = useState('');
-    const [isLocalhost, setIsLocalhost] = useState(false);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const hostname = window.location.hostname;
-            if (hostname === 'localhost' || hostname === '127.0.0.1') {
-                setIsLocalhost(true);
-            }
-        }
-    }, []);
+    const isLocalhost = typeof window !== 'undefined' && 
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
     const qrValue = useMemo(() => {
         if (isLocalhost && localIp) {

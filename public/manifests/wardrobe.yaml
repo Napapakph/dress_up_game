@@ -1,0 +1,128 @@
+version: 1
+
+characters:
+  female:
+    id: "female"
+    name: "Female"
+    baseImage: "/characters/female/female.png"
+    canvas:
+      width: 420
+      height: 640
+    anchors:
+      head:   { x: 210, y: 70 }
+      torso:  { x: 210, y: 220 }
+      bottom: { x: 210, y: 380 }
+      feet:   { x: 210, y: 560 }
+
+
+categoryOrder:
+  - top
+  - bottom
+  - shoes
+  - head
+  - outer
+  - accessory
+
+items:
+  head:
+    - id: "hair_f_01"
+      name: "Blonde Wave"
+      image: "/clothes/head/hair_f_01.svg"
+      layer: 50
+      anchor: "head"
+      offset: { x: 0, y: 0 }
+      scale: 1.0
+    - id: "hair_m_01"
+      name: "Short Spiky"
+      image: "/clothes/head/hair_m_01.svg"
+      layer: 50
+      anchor: "head"
+      offset: { x: 0, y: 0 }
+      scale: 1.0
+
+  top:
+    - id: "top_01"
+      name: "Top 1"
+      image: "/clothes/top/top1.png"
+      width: 150
+      height: 200
+      layer: 30
+      anchor: "torso"
+      offset: { x: 0, y: 0 }
+      scale: 1
+    - id: "top_02"
+      name: "Top 2"
+      image: "/clothes/top/top2.png"
+      width: 150
+      height: 200
+      layer: 30
+      anchor: "torso"
+      offset: { x: 0, y: 0 }
+      scale: 1
+    - id: "top_03"
+      name: "Top 3"
+      image: "/clothes/top/top3.png"
+      width: 150
+      height: 200
+      layer: 30
+      anchor: "torso"
+      offset: { x: 0, y: 0 }
+      scale: 1
+    - id: "top_04"
+      name: "Top 4"
+      image: "/clothes/top/top4.png"
+      width: 150
+      height: 200
+      layer: 30
+      anchor: "torso"
+      offset: { x: 0, y: 0 }
+      scale: 1
+
+  bottom:
+    - id: "bottom_01"
+      name: "Bottom 1"
+      image: "/clothes/bottom/bottom1.png"
+      width: 150
+      height: 250
+      layer: 20
+      anchor: "bottom"
+      offset: { x: 0, y: 0 }
+      scale: 1
+    - id: "bottom_02"
+      name: "Bottom 2"
+      image: "/clothes/bottom/bottom2.png"
+      width: 150
+      height: 250
+      layer: 20
+      anchor: "bottom"
+      offset: { x: 0, y: 0 }
+      scale: 1
+    - id: "bottom_03"
+      name: "Bottom 3"
+      image: "/clothes/bottom/bottom3.png"
+      width: 150
+      height: 250
+      layer: 20
+      anchor: "bottom"
+      offset: { x: 0, y: 0 }
+      scale: 1
+
+  outer:
+    - id: "outer_u_01"
+      name: "Denim Jacket"
+      image: "/clothes/outer/outer_u_01.svg"
+      width: 150
+      height: 200
+      layer: 40
+      anchor: "torso"
+      offset: { x: 0, y: 0 }
+      scale: 1
+
+  shoes:
+    - id: "shoes_u_01"
+      name: "White Sneakers"
+      image: "/clothes/shoes/shoes_u_01.svg"
+      layer: 10
+      anchor: "feet"
+      offset: { x: 0, y: 0 }
+      scale: 1.0

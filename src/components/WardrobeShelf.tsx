@@ -65,7 +65,7 @@ export default function WardrobeShelf({
       name: uploadName || uploadFile.name.replace('.png', ''),
       image: URL.createObjectURL(uploadFile), // Note: Page.tsx will handle converting to Base64 for DB
       category: selectedCategory,
-      layer: 30, 
+      layer: 45, 
       anchor: 'torso',
       offset: { x: 0, y: 0 },
       scale: 1.0,

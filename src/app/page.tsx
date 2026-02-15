@@ -348,7 +348,7 @@ export default function DressUpPage() {
         // Wait, I can't easily change the signature without changing WardrobeShelf first.
         // But I need to provide `onUpload` to WardrobeShelf.
         category: newItem.category,
-        layer: newItem.layer || 50,
+        layer: newItem.layer || 45,
         anchor: newItem.anchor || 'body',
         offset: newItem.offset || {x:0,y:0},
         scale: newItem.scale || 1

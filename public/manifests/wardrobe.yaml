@@ -25,20 +25,7 @@ categoryOrder:
 
 items:
   head:
-    - id: "hair_f_01"
-      name: "Blonde Wave"
-      image: ""
-      layer: 50
-      anchor: "head"
-      offset: { x: 0, y: 0 }
-      scale: 1.0
-    - id: "hair_m_01"
-      name: "Short Spiky"
-      image: ""
-      layer: 50
-      anchor: "head"
-      offset: { x: 0, y: 0 }
-      scale: 1.0
+    
 
   top:
     - id: "top_01"

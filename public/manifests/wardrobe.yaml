@@ -13,6 +13,18 @@ characters:
       torso:  { x: 210, y: 220 }
       bottom: { x: 210, y: 380 }
       feet:   { x: 210, y: 560 }
+  male:
+    id: "male"
+    name: "Male"
+    baseImage: "/characters/male/male.png"
+    canvas:
+      width: 420
+      height: 640
+    anchors:
+      head:   { x: 210, y: 70 }
+      torso:  { x: 210, y: 220 }
+      bottom: { x: 210, y: 380 }
+      feet:   { x: 210, y: 560 }
 
 
 categoryOrder:

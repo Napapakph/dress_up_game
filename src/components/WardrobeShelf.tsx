@@ -124,12 +124,12 @@ export default function WardrobeShelf({
       {/* Mobile backdrop */}
       {drawerOpen && (
         <div 
-          className="md:hidden fixed inset-0 bg-black/20 z-20 pointer-events-auto"
+          className="md:hidden fixed inset-0 bg-black/20 z-[45] pointer-events-auto"
           onClick={() => setDrawerOpen(false)}
         />
       )}
       <div className={`
-          pointer-events-auto fixed right-0 top-0 bottom-0 w-[45vw] max-w-[200px] overflow-y-auto bg-white/95 backdrop-blur-md border-l-2 border-pink-200 shadow-[-4px_0_20px_rgba(0,0,0,0.1)] z-40 p-3 no-scrollbar
+          pointer-events-auto fixed right-0 top-0 bottom-0 w-[45vw] max-w-[200px] overflow-y-auto bg-white/95 backdrop-blur-md border-l-2 border-pink-200 shadow-[-4px_0_20px_rgba(0,0,0,0.1)] z-50 p-3 no-scrollbar
           transition-transform duration-300 ease-in-out
           ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}
           md:static md:translate-x-0 md:bg-[#fff0f5] md:w-auto md:max-w-none md:h-full md:flex-1 md:border-0 md:border-l-0 md:shadow-none md:p-4 md:rounded-none

@@ -603,7 +603,7 @@ export default function DressUpPage() {
       </div>
 
       {/* Main Layout */}
-      <main className="flex-1 flex flex-col md:flex-row overflow-hidden relative p-0 md:p-4 gap-0 md:gap-6 items-center justify-center">
+      <main className="flex-1 flex flex-col md:flex-row overflow-auto md:overflow-hidden relative p-0 md:p-4 gap-0 md:gap-6 items-center justify-start md:justify-center">
         
         {/* Left: Wardrobe Shelf - Floating Overlay on Mobile, Panel on Desktop */}
         <section className="absolute inset-0 z-20 pointer-events-none md:static md:pointer-events-auto md:w-[320px] lg:w-[380px] md:h-[85vh] order-2 md:order-1 flex-shrink-0">
@@ -619,7 +619,7 @@ export default function DressUpPage() {
         </section>
 
         {/* Center: Stage */}
-        <section className="relative w-full h-full md:flex-1 md:h-[85vh] flex items-center justify-center order-1 md:order-2 bg-gray-50 md:bg-transparent">
+        <section className="relative w-full min-h-[70vh] md:min-h-0 md:flex-1 md:h-[85vh] flex items-start md:items-center justify-center order-1 md:order-2 bg-gray-50 md:bg-transparent overflow-auto md:overflow-hidden pb-36 md:pb-0">
            <div 
              className="relative w-full h-full md:max-w-[500px] flex items-center justify-center md:rounded-3xl overflow-hidden shadow-none md:shadow-2xl transition-all"
              style={{ 
@@ -698,11 +698,11 @@ export default function DressUpPage() {
              </div>
         </section>
 
-        {/* Layer Controls - Bottom bar on mobile, Right side on desktop */}
+        {/* Layer Controls - Fixed bottom on mobile (above bottom bars), Right side on desktop */}
         {selectedId && (
-            <div className="absolute z-50 bg-white/90 backdrop-blur-sm border border-indigo-100 shadow-lg flex items-center justify-center
-                          bottom-32 left-1/2 -translate-x-1/2 flex-row gap-4 p-2 rounded-full w-auto
-                          md:top-1/2 md:right-4 md:left-auto md:bottom-auto md:-translate-y-1/2 md:translate-x-0 md:flex-col md:gap-2 md:p-3 md:rounded-lg">
+            <div className="fixed z-30 bg-white/90 backdrop-blur-sm border border-indigo-100 shadow-lg flex items-center justify-center
+                          bottom-[140px] left-1/2 -translate-x-1/2 flex-row gap-4 p-2 rounded-full w-auto
+                          md:absolute md:bottom-auto md:left-auto md:top-1/2 md:right-4 md:-translate-y-1/2 md:translate-x-0 md:flex-col md:gap-2 md:p-3 md:rounded-lg">
                 <span className="text-[10px] font-bold text-gray-400 mb-0 md:mb-1 hidden md:block">LAYER</span>
                 <button onMouseDown={() => handleLayerChange('up')} className="p-2 bg-indigo-50 text-indigo-500 rounded-full md:rounded hover:bg-indigo-100 transition shadow-sm" title="Bring Forward">▲</button>
                 <div className="w-px h-4 bg-gray-300 md:hidden"></div>

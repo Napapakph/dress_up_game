@@ -28,14 +28,14 @@ items:
     - id: "hair_f_01"
       name: "Blonde Wave"
       image: "/clothes/head/hat1.png"
-      layer: 50
+      layer: 10
       anchor: "head"
       offset: { x: 0, y: 0 }
       scale: 1.0
     - id: "hair_m_01"
       name: "Short Spiky"
       image: "/clothes/head/hat2.png"
-      layer: 50
+      layer: 10
       anchor: "head"
       offset: { x: 0, y: 0 }
       scale: 1.0
@@ -46,7 +46,7 @@ items:
       image: "/clothes/top/top1.png"
       width: 150
       height: 200
-      layer: 30
+      layer: 10
       anchor: "torso"
       offset: { x: 0, y: 0 }
       scale: 1
@@ -55,7 +55,7 @@ items:
       image: "/clothes/top/top2.png"
       width: 150
       height: 200
-      layer: 30
+      layer: 10
       anchor: "torso"
       offset: { x: 0, y: 0 }
       scale: 1
@@ -64,7 +64,7 @@ items:
       image: "/clothes/top/top3.png"
       width: 150
       height: 200
-      layer: 30
+      layer: 10
       anchor: "torso"
       offset: { x: 0, y: 0 }
       scale: 1
@@ -73,7 +73,7 @@ items:
       image: "/clothes/top/top4.png"
       width: 150
       height: 200
-      layer: 30
+      layer: 10
       anchor: "torso"
       offset: { x: 0, y: 0 }
       scale: 1
@@ -84,7 +84,7 @@ items:
       image: "/clothes/bottom/bottom1.png"
       width: 150
       height: 250
-      layer: 20
+      layer: 10
       anchor: "bottom"
       offset: { x: 0, y: 0 }
       scale: 1
@@ -93,7 +93,7 @@ items:
       image: "/clothes/bottom/bottom2.png"
       width: 150
       height: 250
-      layer: 20
+      layer: 10
       anchor: "bottom"
       offset: { x: 0, y: 0 }
       scale: 1
@@ -102,7 +102,7 @@ items:
       image: "/clothes/bottom/bottom3.png"
       width: 150
       height: 250
-      layer: 20
+      layer: 10
       anchor: "bottom"
       offset: { x: 0, y: 0 }
       scale: 1
@@ -113,7 +113,7 @@ items:
       image: "/clothes/outer/out1.png"
       width: 150
       height: 200
-      layer: 40
+      layer: 10
       anchor: "torso"
       offset: { x: 0, y: 0 }
       scale: 1

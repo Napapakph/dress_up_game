@@ -41,6 +41,8 @@ export default function DressUpPage() {
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportUrl, setExportUrl] = useState<string | null>(null);
   const [exportType, setExportType] = useState<'png' | 'pdf'>('png');
+  const [showBgChoice, setShowBgChoice] = useState(false);
+  const [pendingExportType, setPendingExportType] = useState<'png' | 'pdf'>('png');
 
 
   // Load Wardrobe & URL State & DB
@@ -394,9 +396,15 @@ export default function DressUpPage() {
   };
 
   // Export
-  const generateExport = async (type: 'png' | 'pdf') => {
+  const promptExport = (type: 'png' | 'pdf') => {
+    setPendingExportType(type);
+    setShowBgChoice(true);
+  };
+
+  const generateExport = async (type: 'png' | 'pdf', withBackground: boolean = false) => {
     // ... same as before
     if (!stageRef.current) return;
+    setShowBgChoice(false);
     
     // Deselect before export to hide highlight
     const tempSelected = selectedId;
@@ -406,7 +414,40 @@ export default function DressUpPage() {
     await new Promise(r => setTimeout(r, 50));
     
     try {
-      const dataUrl = await toPng(stageRef.current, { cacheBust: true, pixelRatio: 2 });
+      let captureNode = stageRef.current;
+      let wrapperDiv: HTMLDivElement | null = null;
+
+      if (withBackground) {
+        // Create a wrapper div with the background
+        wrapperDiv = document.createElement('div');
+        wrapperDiv.style.position = 'absolute';
+        wrapperDiv.style.left = '-9999px';
+        wrapperDiv.style.width = stageRef.current.offsetWidth + 'px';
+        wrapperDiv.style.height = stageRef.current.offsetHeight + 'px';
+        if (background.type === 'color') {
+          wrapperDiv.style.backgroundColor = background.value;
+        } else {
+          wrapperDiv.style.backgroundImage = `url(${background.value})`;
+          wrapperDiv.style.backgroundSize = 'cover';
+          wrapperDiv.style.backgroundPosition = 'center';
+        }
+        const clone = stageRef.current.cloneNode(true) as HTMLElement;
+        clone.style.position = 'relative';
+        wrapperDiv.appendChild(clone);
+        document.body.appendChild(wrapperDiv);
+        captureNode = wrapperDiv;
+      }
+
+      const dataUrl = await toPng(captureNode, { 
+        cacheBust: true, 
+        pixelRatio: 2,
+        backgroundColor: withBackground && background.type === 'color' ? background.value : undefined,
+      });
+
+      // Cleanup wrapper
+      if (wrapperDiv) {
+        document.body.removeChild(wrapperDiv);
+      }
       
       // Restore selection
       setSelectedId(tempSelected);
@@ -541,10 +582,10 @@ export default function DressUpPage() {
             <RotateCcw size={20} />
           </button>
           <div className="h-6 w-px bg-gray-200 my-auto mx-1" />
-          <button onClick={() => generateExport('png')} className="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-white text-indigo-500 border-2 border-indigo-100 rounded-full hover:bg-indigo-50 transition shadow-sm">
+          <button onClick={() => promptExport('png')} className="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-white text-indigo-500 border-2 border-indigo-100 rounded-full hover:bg-indigo-50 transition shadow-sm">
             <Download size={16} /> PNG
           </button>
-          <button onClick={() => generateExport('pdf')} className="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition shadow-md">
+          <button onClick={() => promptExport('pdf')} className="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition shadow-md">
             <FileText size={16} /> PDF
           </button>
         </div>
@@ -593,10 +634,10 @@ export default function DressUpPage() {
             <RotateCcw size={16} />
           </button>
           <div className="h-4 w-px bg-gray-200" />
-          <button onClick={() => generateExport('png')} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-white text-indigo-500 border border-indigo-100 rounded-full shadow-sm">
+          <button onClick={() => promptExport('png')} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-white text-indigo-500 border border-indigo-100 rounded-full shadow-sm">
             <Download size={14} /> PNG
           </button>
-          <button onClick={() => generateExport('pdf')} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-indigo-500 text-white rounded-full shadow-sm">
+          <button onClick={() => promptExport('pdf')} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-indigo-500 text-white rounded-full shadow-sm">
             <FileText size={14} /> PDF
           </button>
         </div>
@@ -711,6 +752,44 @@ export default function DressUpPage() {
         )}
 
       </main>
+
+      {/* Background Choice Dialog */}
+      {showBgChoice && (
+        <div className="fixed inset-0 bg-black/40 z-[70] flex items-center justify-center p-4" onClick={() => setShowBgChoice(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl p-5 max-w-xs w-full" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-base font-bold text-gray-800 mb-1">เลือกพื้นหลัง</h3>
+            <p className="text-xs text-gray-400 mb-4">เลือกรูปแบบพื้นหลังสำหรับบันทึก {pendingExportType.toUpperCase()}</p>
+            
+            <div className="flex gap-3">
+              {/* Transparent */}
+              <button
+                onClick={() => generateExport(pendingExportType, false)}
+                className="flex-1 flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-gray-200 hover:border-pink-400 hover:bg-pink-50 transition-all group"
+              >
+                <div className="w-14 h-14 rounded-lg border-2 border-dashed border-gray-300 group-hover:border-pink-400" 
+                     style={{ backgroundImage: 'repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%)', backgroundSize: '12px 12px' }} />
+                <span className="text-xs font-bold text-gray-600 group-hover:text-pink-500">พื้นหลังใส</span>
+              </button>
+
+              {/* With Background */}
+              <button
+                onClick={() => generateExport(pendingExportType, true)}
+                className="flex-1 flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group"
+              >
+                <div className="w-14 h-14 rounded-lg border-2 border-gray-300 group-hover:border-indigo-400"
+                     style={{ 
+                       background: background.type === 'color' ? background.value : `url(${background.value}) center/cover`,
+                     }} />
+                <span className="text-xs font-bold text-gray-600 group-hover:text-indigo-500">มีพื้นหลัง</span>
+              </button>
+            </div>
+
+            <button onClick={() => setShowBgChoice(false)} className="w-full mt-3 py-2 text-xs text-gray-400 hover:text-gray-600 transition">
+              ยกเลิก
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Export Modal */}
       {showExportModal && exportUrl && (

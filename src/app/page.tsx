@@ -414,39 +414,41 @@ export default function DressUpPage() {
     await new Promise(r => setTimeout(r, 50));
     
     try {
-      let captureNode = stageRef.current;
-      let wrapperDiv: HTMLDivElement | null = null;
+      // If exporting with background, temporarily apply background directly to stageRef
+      let originalBg = '';
+      let originalBgImage = '';
+      let originalBgSize = '';
+      let originalBgPos = '';
 
-      if (withBackground) {
-        // Create a wrapper div with the background
-        wrapperDiv = document.createElement('div');
-        wrapperDiv.style.position = 'absolute';
-        wrapperDiv.style.left = '-9999px';
-        wrapperDiv.style.width = stageRef.current.offsetWidth + 'px';
-        wrapperDiv.style.height = stageRef.current.offsetHeight + 'px';
+      if (withBackground && stageRef.current) {
+        const style = stageRef.current.style;
+        originalBg = style.backgroundColor;
+        originalBgImage = style.backgroundImage;
+        originalBgSize = style.backgroundSize;
+        originalBgPos = style.backgroundPosition;
+
         if (background.type === 'color') {
-          wrapperDiv.style.backgroundColor = background.value;
+          style.backgroundColor = background.value;
         } else {
-          wrapperDiv.style.backgroundImage = `url(${background.value})`;
-          wrapperDiv.style.backgroundSize = 'cover';
-          wrapperDiv.style.backgroundPosition = 'center';
+          style.backgroundImage = `url(${background.value})`;
+          style.backgroundSize = 'cover';
+          style.backgroundPosition = 'center';
         }
-        const clone = stageRef.current.cloneNode(true) as HTMLElement;
-        clone.style.position = 'relative';
-        wrapperDiv.appendChild(clone);
-        document.body.appendChild(wrapperDiv);
-        captureNode = wrapperDiv;
       }
 
-      const dataUrl = await toPng(captureNode, { 
+      const dataUrl = await toPng(stageRef.current, { 
         cacheBust: true, 
         pixelRatio: 2,
         backgroundColor: withBackground && background.type === 'color' ? background.value : undefined,
       });
 
-      // Cleanup wrapper
-      if (wrapperDiv) {
-        document.body.removeChild(wrapperDiv);
+      // Restore original styles
+      if (withBackground && stageRef.current) {
+        const style = stageRef.current.style;
+        style.backgroundColor = originalBg;
+        style.backgroundImage = originalBgImage;
+        style.backgroundSize = originalBgSize;
+        style.backgroundPosition = originalBgPos;
       }
       
       // Restore selection

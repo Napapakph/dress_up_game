@@ -476,7 +476,7 @@ export default function DressUpPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fff5f8] text-gray-900 font-sans selection:bg-pink-200">
       {/* Header - Title always, controls only on desktop */}
-      <header className="px-4 md:px-6 py-3 flex justify-between items-center z-10 gap-4 bg-white/50 backdrop-blur-sm border-b border-pink-100 sticky top-0">
+      <header className="px-4 md:px-6 py-3 flex justify-between items-center z-[60] gap-4 bg-white/50 backdrop-blur-sm border-b border-pink-100 sticky top-0">
         <div className="flex items-center gap-2">
           <div className="p-2 bg-pink-100 rounded-full text-pink-500">
              <Shirt size={24} />
@@ -551,7 +551,7 @@ export default function DressUpPage() {
       </header>
 
       {/* Mobile Bottom Toolbar - Character selector + Export */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-pink-100 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-[55] bg-white/95 backdrop-blur-md border-t border-pink-100 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
         {/* Row 1: Character selector */}
         <div className="flex items-center gap-2 px-3 pt-2 pb-1 overflow-x-auto no-scrollbar">
           {Object.values(wardrobe.characters).map((char) => {
@@ -700,7 +700,7 @@ export default function DressUpPage() {
 
         {/* Layer Controls - Fixed bottom on mobile (above bottom bars), Right side on desktop */}
         {selectedId && (
-            <div className="fixed z-30 bg-white/90 backdrop-blur-sm border border-indigo-100 shadow-lg flex items-center justify-center
+            <div className="fixed z-[35] bg-white/90 backdrop-blur-sm border border-indigo-100 shadow-lg flex items-center justify-center
                           bottom-[140px] left-1/2 -translate-x-1/2 flex-row gap-4 p-2 rounded-full w-auto
                           md:absolute md:bottom-auto md:left-auto md:top-1/2 md:right-4 md:-translate-y-1/2 md:translate-x-0 md:flex-col md:gap-2 md:p-3 md:rounded-lg">
                 <span className="text-[10px] font-bold text-gray-400 mb-0 md:mb-1 hidden md:block">LAYER</span>
@@ -714,7 +714,7 @@ export default function DressUpPage() {
 
       {/* Export Modal */}
       {showExportModal && exportUrl && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full animate-in fade-in zoom-in-95">
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
               <Share2 className="text-indigo-600" /> 

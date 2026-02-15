@@ -25,7 +25,20 @@ categoryOrder:
 
 items:
   head:
-   
+    - id: "hair_f_01"
+      name: "Blonde Wave"
+      image: "/clothes/head/hair_f_01.svg"
+      layer: 50
+      anchor: "head"
+      offset: { x: 0, y: 0 }
+      scale: 1.0
+    - id: "hair_m_01"
+      name: "Short Spiky"
+      image: "/clothes/head/hair_m_01.svg"
+      layer: 50
+      anchor: "head"
+      offset: { x: 0, y: 0 }
+      scale: 1.0
 
   top:
     - id: "top_01"
@@ -95,7 +108,21 @@ items:
       scale: 1
 
   outer:
- 
+    - id: "outer_u_01"
+      name: "Denim Jacket"
+      image: "/clothes/outer/outer_u_01.svg"
+      width: 150
+      height: 200
+      layer: 40
+      anchor: "torso"
+      offset: { x: 0, y: 0 }
+      scale: 1
 
   shoes:
- 
+    - id: "shoes_u_01"
+      name: "White Sneakers"
+      image: "/clothes/shoes/shoes_u_01.svg"
+      layer: 10
+      anchor: "feet"
+      offset: { x: 0, y: 0 }
+      scale: 1.0

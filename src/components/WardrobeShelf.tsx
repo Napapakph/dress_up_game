@@ -41,7 +41,16 @@ export default function WardrobeShelf({
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [selectedToDelete, setSelectedToDelete] = useState<string[]>([]);
 
+  // Drawer state for mobile
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const filteredItems = items.filter((i) => i.category === selectedCategory);
+
+  // Handle category selection - open drawer on mobile
+  const handleCategorySelect = (cat: string) => {
+    onSelectCategory(cat);
+    setDrawerOpen(true);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -92,7 +101,7 @@ export default function WardrobeShelf({
         {categories.map((cat) => (
           <button
             key={cat}
-            onClick={() => onSelectCategory(cat)}
+            onClick={() => handleCategorySelect(cat)}
             disabled={isDeleteMode} 
             title={cat}
             className={`
@@ -111,16 +120,35 @@ export default function WardrobeShelf({
         ))}
       </div>
 
-      {/* Main Closet Area -> Floating Right Sidebar on Mobile, Main Content on Desktop */}
+      {/* Main Closet Area -> Floating Right Drawer on Mobile, Main Content on Desktop */}
+      {/* Mobile backdrop */}
+      {drawerOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/20 z-20 pointer-events-auto"
+          onClick={() => setDrawerOpen(false)}
+        />
+      )}
       <div className={`
-          pointer-events-auto absolute right-2 top-4 bottom-32 w-24 h-auto overflow-y-auto bg-white/90 backdrop-blur-sm rounded-xl border-2 border-white shadow-lg z-30 p-2 no-scrollbar
-          md:static md:translate-y-0 md:bg-[#fff0f5] md:w-auto md:h-full md:flex-1 md:border-0 md:shadow-none md:p-4 md:rounded-none
+          pointer-events-auto fixed right-0 top-0 bottom-0 w-[45vw] max-w-[200px] overflow-y-auto bg-white/95 backdrop-blur-md border-l-2 border-pink-200 shadow-[-4px_0_20px_rgba(0,0,0,0.1)] z-40 p-3 no-scrollbar
+          transition-transform duration-300 ease-in-out
+          ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}
+          md:static md:translate-x-0 md:bg-[#fff0f5] md:w-auto md:max-w-none md:h-full md:flex-1 md:border-0 md:border-l-0 md:shadow-none md:p-4 md:rounded-none
       `}>
         <div className="absolute inset-0 opacity-10 pointer-events-none md:block hidden" style={{ backgroundImage: 'radial-gradient(#ff69b4 2px, transparent 2px)', backgroundSize: '20px 20px' }} />
         
+        {/* Mobile drawer header */}
+        <div className="md:hidden flex items-center justify-between mb-3 pb-2 border-b border-pink-100">
+          <h3 className="font-bold text-[#db7093] capitalize flex items-center gap-1.5 text-sm">
+            <CategoryIcon category={selectedCategory} /> {selectedCategory}
+          </h3>
+          <button onClick={() => setDrawerOpen(false)} className="p-1 text-gray-400 hover:text-pink-500 rounded-full hover:bg-pink-50 transition">
+            <X size={18} />
+          </button>
+        </div>
+
         <div className="relative z-10 h-full">
             {/* Action Bar */}
-            <div className={`flex justify-between items-center mb-4 p-2 rounded-xl backdrop-blur-sm border ${isDeleteMode ? 'bg-red-50 border-red-200' : 'bg-white/60 border-white/50'} ${!isDeleteMode ? 'hidden md:flex' : ''}`}>
+            <div className={`flex justify-between items-center mb-4 p-2 rounded-xl backdrop-blur-sm border ${isDeleteMode ? 'bg-red-50 border-red-200' : 'bg-white/60 border-white/50'}`}>
               <h3 className={`font-bold capitalize flex items-center gap-2 ${isDeleteMode ? 'text-red-500' : 'text-[#db7093]'}`}>
                 {isDeleteMode ? 'Remove' : <><CategoryIcon category={selectedCategory} /> {selectedCategory}</>}
               </h3>

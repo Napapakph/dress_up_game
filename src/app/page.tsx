@@ -34,7 +34,7 @@ export default function DressUpPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('top');
   
   const [placedItems, setPlacedItems] = useState<PlacedItem[]>([]);
-  const [background, setBackground] = useState<{ type: 'color' | 'image', value: string }>({ type: 'image', value: 'bg.jpg' });
+  const [background, setBackground] = useState<{ type: 'color' | 'image', value: string }>({ type: 'image', value: '/bg.png' });
 
   // For export logic
   const stageRef = useRef<HTMLDivElement>(null);
@@ -54,7 +54,7 @@ export default function DressUpPage() {
             // Load custom data from DB
             const customChars = await getCharacters();
             const customItems = await getItems();
-            const savedBg = await getBackground(); // Load Saved BG
+            // const savedBg = await getBackground(); // Load Saved BG
 
             // Merge Custom Characters
             customChars.forEach(c => {
@@ -79,9 +79,9 @@ export default function DressUpPage() {
                 scale: i.scale
             }))]);
             
-            if (savedBg) {
-                setBackground(savedBg);
-            }
+            // if (savedBg) {
+            //     setBackground(savedBg);
+            // }
             
             if (data.categoryOrder.length > 0) {
               setSelectedCategory(data.categoryOrder[2] || data.categoryOrder[0]); 
@@ -204,7 +204,7 @@ export default function DressUpPage() {
               id: newId,
               name: file.name.replace(/\.[^/.]+$/, "").substring(0, 10),
               baseImage: base64,
-              canvas: { width: 420, height: 640 }, // Default size matching others
+              canvas: { width: 500, height: 640 }, // Default size matching others
               anchors: {
                  head:   { x: 210, y: 120 },
                  torso:  { x: 210, y: 270 },

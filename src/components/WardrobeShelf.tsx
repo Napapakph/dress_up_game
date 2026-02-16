@@ -16,10 +16,8 @@ const CategoryIcon = ({ category }: { category: string }) => {
     switch (category) {
         case 'top': return <Shirt size={16} />;
         case 'bottom': return <Scissors size={16} />; 
-        case 'shoes': return <Footprints size={16} />;
-        case 'head': return <Smile size={16} />;
-        case 'accessory': return <Star size={16} />;
-        case 'outer': return <Grid size={16} />;
+       case 'outer': return <Grid size={16} />;
+        case 'item': return <Star size={16} />;
         default: return <Grid size={16} />;
     }
 };

@@ -4,7 +4,7 @@ characters:
   female:
     id: "female"
     name: "Female"
-    baseImage: "/characters/female/female.png"
+    baseImage: "/characters/female/female1.png"
     canvas:
       width: 420
       height: 640
@@ -30,111 +30,326 @@ characters:
 categoryOrder:
   - top
   - bottom
-  - shoes
-  - head
   - outer
-  - accessory
+  - item
+
+categoryDefaults:
+  head:
+    width: 150
+    height: 150
+    layer: 10
+    anchor: "head"
+    offset: { x: 0, y: 0 }
+    scale: 1
+  top:
+    width: 150
+    height: 150
+    layer: 10
+    anchor: "torso"
+    offset: { x: 0, y: 0 }
+    scale: 1
+  bottom:
+    width: 150
+    height: 150
+    layer: 10
+    anchor: "bottom"
+    offset: { x: 0, y: 0 }
+    scale: 1
+  outer:
+    width: 160
+    height: 220
+    layer: 50
+    anchor: "torso"
+    offset: { x: 0, y: 0 }
+    scale: 1
+  shoes:
+    width: 120
+    height: 100
+    layer: 10
+    anchor: "feet"
+    offset: { x: 0, y: 0 }
+    scale: 1
+  item:
+    width: 80
+    height: 80
+    layer: 60
+    anchor: "head"
+    offset: { x: 0, y: 0 }
+    scale: 1
 
 items:
-  head:
-    - id: "hair_f_01"
-      name: "Blonde Wave"
-      image: "/clothes/head/hat1.png"
-      layer: 10
-      anchor: "head"
-      offset: { x: 0, y: 0 }
-      scale: 1.0
-    - id: "hair_m_01"
-      name: "Short Spiky"
-      image: "/clothes/head/hat2.png"
-      layer: 10
-      anchor: "head"
-      offset: { x: 0, y: 0 }
-      scale: 1.0
+  item:
+    - id: "pinky"
+      name: "Pinky"
+      image: "/clothes/item/pinky.png"
+    - id: "item1"
+      name: "Item 1"
+      image: "/clothes/item/i1.png"
+    - id: "item2"
+      name: "Item2"
+      image: "/clothes/item/i2.png"
+    - id: "item3"
+      name: "Item 3"
+      image: "/clothes/item/i3.png"
+    - id: "item4"
+      name: "Item4"
+      image: "/clothes/item/i4.png"
+    - id: "item5"
+      name: "Item 5"
+      image: "/clothes/item/i5.png"
+    - id: "item6"
+      name: "Item6"
+      image: "/clothes/item/i6.png"
+    - id: "item7"
+      name: "Item 7"
+      image: "/clothes/item/i7.png"
+    - id: "item8"
+      name: "Item8"
+      image: "/clothes/item/i8.png"
+    - id: "item9"
+      name: "Item9"
+      image: "/clothes/item/i9.png"
+    - id: "item10"
+      name: "Item10"
+      image: "/clothes/item/i10.png"
+    - id: "item11"
+      name: "Item11"
+      image: "/clothes/item/i11.png"
+    - id: "item12"
+      name: "Item 12"
+      image: "/clothes/item/i12.png"
+    - id: "item13"
+      name: "Item13"
+      image: "/clothes/item/i13.png"
+    - id: "item14"
+      name: "Item 14"
+      image: "/clothes/item/i14.png"
+    - id: "item15"
+      name: "Item15"
+      image: "/clothes/item/i15.png"
+    - id: "item16"
+      name: "Item16"
+      image: "/clothes/item/i16.png"
+    - id: "item17"
+      name: "Item17"
+      image: "/clothes/item/i17.png"
+    - id: "item18"
+      name: "Item18"
+      image: "/clothes/item/i18.png"
+    - id: "item19"
+      name: "Item19"
+      image: "/clothes/item/i19.png"
+    - id: "item20"
+      name: "Item20"
+      image: "/clothes/item/i20.png"
+    - id: "item21"
+      name: "Item21"
+      image: "/clothes/item/i21.png"
+    - id: "item22"
+      name: "Item22"
+      image: "/clothes/item/i22.png"
+    - id: "item23"
+      name: "Item23"
+      image: "/clothes/item/i23.png"
 
   top:
     - id: "top_01"
       name: "Top 1"
       image: "/clothes/top/top1.png"
-      width: 150
-      height: 200
-      layer: 10
-      anchor: "torso"
-      offset: { x: 0, y: 0 }
-      scale: 1
     - id: "top_02"
       name: "Top 2"
       image: "/clothes/top/top2.png"
-      width: 150
-      height: 200
-      layer: 10
-      anchor: "torso"
-      offset: { x: 0, y: 0 }
-      scale: 1
     - id: "top_03"
       name: "Top 3"
       image: "/clothes/top/top3.png"
-      width: 150
-      height: 200
-      layer: 10
-      anchor: "torso"
-      offset: { x: 0, y: 0 }
-      scale: 1
     - id: "top_04"
       name: "Top 4"
       image: "/clothes/top/top4.png"
-      width: 150
-      height: 200
-      layer: 10
-      anchor: "torso"
-      offset: { x: 0, y: 0 }
-      scale: 1
+    - id: "top_05"
+      name: "Top 5"
+      image: "/clothes/top/top5.png"
+    - id: "top_07"
+      name: "Top 7"
+      image: "/clothes/top/top7.png"
+    - id: "t1"
+      name: "t1"
+      image: "/clothes/top/t1.png"
+    - id: "t2"
+      name: "t2"
+      image: "/clothes/top/t2.png"
+    - id: "t3"
+      name: "t3"
+      image: "/clothes/top/t3.png"
+    - id: "t4"
+      name: "t4"
+      image: "/clothes/top/t4.png"
+    - id: "t5"
+      name: "t5"
+      image: "/clothes/top/t5.png"
+    - id: "t6"
+      name: "t6"
+      image: "/clothes/top/t6.png"
+    - id: "t7"
+      name: "t7"
+      image: "/clothes/top/t7.png"
+    - id: "t8"
+      name: "t8"
+      image: "/clothes/top/t8.png"
+    - id: "t9"
+      name: "t9"
+      image: "/clothes/top/t9.png"
+    - id: "t10"
+      name: "t10"
+      image: "/clothes/top/t10.png"
+    - id: "t11"
+      name: "t11"
+      image: "/clothes/top/t11.png"
+    - id: "t12"
+      name: "t12"
+      image: "/clothes/top/t12.png"
 
   bottom:
     - id: "bottom_01"
       name: "Bottom 1"
       image: "/clothes/bottom/bottom1.png"
-      width: 150
-      height: 250
-      layer: 10
-      anchor: "bottom"
-      offset: { x: 0, y: 0 }
-      scale: 1
     - id: "bottom_02"
       name: "Bottom 2"
       image: "/clothes/bottom/bottom2.png"
-      width: 150
-      height: 250
-      layer: 10
-      anchor: "bottom"
-      offset: { x: 0, y: 0 }
-      scale: 1
     - id: "bottom_03"
       name: "Bottom 3"
       image: "/clothes/bottom/bottom3.png"
-      width: 150
-      height: 250
-      layer: 10
-      anchor: "bottom"
-      offset: { x: 0, y: 0 }
-      scale: 1
+    - id: "bottom_04"
+      name: "Bottom 4"
+      image: "/clothes/bottom/bottom4.png"
+    - id: "bottom_05"
+      name: "Bottom 5"
+      image: "/clothes/bottom/bottom5.png"
+    - id: "bottom_06"
+      name: "Bottom 6"
+      image: "/clothes/bottom/bottom6.png"
+    - id: "bottom_07"
+      name: "Bottom 7"
+      image: "/clothes/bottom/bottom7.png"
+    - id: "bottom_08"
+      name: "Bottom 8"
+      image: "/clothes/bottom/bottom8.png"
+    - id: "b1"
+      name: "b1"
+      image: "/clothes/bottom/b1.png"
+    - id: "b2"
+      name: "b2"
+      image: "/clothes/bottom/b2.png"
+    - id: "b3"
+      name: "b3"
+      image: "/clothes/bottom/b3.png"
+    - id: "b4"
+      name: "b4"
+      image: "/clothes/bottom/b4.png"
+
+    - id: "b6"
+      name: "b6"
+      image: "/clothes/bottom/b6.png"
+    - id: "b7"
+      name: "b7"
+      image: "/clothes/bottom/b7.png"
+    - id: "b8"
+      name: "b8"
+      image: "/clothes/bottom/b8.png"
+    - id: "b9"
+      name: "b9"
+      image: "/clothes/bottom/b9.png"
+    - id: "b11"
+      name: "b11"
+      image: "/clothes/bottom/b11.png"
+    - id: "b12"
+      name: "b12"
+      image: "/clothes/bottom/b12.png"
+    - id: "b13"
+      name: "b13"
+      image: "/clothes/bottom/b13.png"
+    - id: "b14"
+      name: "b14"
+      image: "/clothes/bottom/b14.png"
+    - id: "b15"
+      name: "b15"
+      image: "/clothes/bottom/b15.png"
+    - id: "b16"
+      name: "b16"
+      image: "/clothes/bottom/b16.png"
+    - id: "b17"
+      name: "b17"
+      image: "/clothes/bottom/b17.png"
+    - id: "b18"
+      name: "b18"
+      image: "/clothes/bottom/b18.png"
+    - id: "b19"
+      name: "b19"
+      image: "/clothes/bottom/b19.png"
+    - id: "b20"
+      name: "b20"
+      image: "/clothes/bottom/b20.png"
+    - id: "b21"
+      name: "b21"
+      image: "/clothes/bottom/b21.png"
+    - id: "b22"
+      name: "b22"
+      image: "/clothes/bottom/b22.png"
+    - id: "b23"
+      name: "b23"
+      image: "/clothes/bottom/b23.png"
+    - id: "b24"
+      name: "b24"
+      image: "/clothes/bottom/b24.png"
+    - id: "b25"
+      name: "b25"
+      image: "/clothes/bottom/b25.png"
+    - id: "b27"
+      name: "b27"
+      image: "/clothes/bottom/b27.png"
+    - id: "b28"
+      name: "b28"
+      image: "/clothes/bottom/b28.png"
+    - id: "b29"
+      name: "b29"
+      image: "/clothes/bottom/b29.png"
+    - id: "b30"
+      name: "b30"
+      image: "/clothes/bottom/b30.png"
+    - id: "b31"
+      name: "b31"
+      image: "/clothes/bottom/b31.png"
+    - id: "b32"
+      name: "b32"
+      image: "/clothes/bottom/b32.png"
 
   outer:
     - id: "outer_u_01"
       name: "Denim Jacket"
       image: "/clothes/outer/out1.png"
-      width: 150
-      height: 200
-      layer: 10
-      anchor: "torso"
-      offset: { x: 0, y: 0 }
-      scale: 1
-
-  shoes:
-    - id: "shoes_u_01"
-      name: "White Sneakers"
-      image: "/clothes/shoes/shoes1.png"
-      layer: 10
-      anchor: "feet"
-      offset: { x: 0, y: 0 }
-      scale: 1.0
+    - id: "o1"
+      name: "o1"
+      image: "/clothes/outer/o1.png"   
+    - id: "o2"
+      name: "o2"
+      image: "/clothes/outer/o2.png" 
+    - id: "o3"
+      name: "o3"
+      image: "/clothes/outer/o3.png"  
+    - id: "o4"
+      name: "o4"
+      image: "/clothes/outer/o4.png"      
+    - id: "o5"
+      name: "o5"
+      image: "/clothes/outer/o5.png"  
+    - id: "o6"
+      name: "o6"
+      image: "/clothes/outer/o6.png"    
+    - id: "o9"
+      name: "o9"
+      image: "/clothes/outer/o9.png"  
+    - id: "o10"
+      name: "o10"
+      image: "/clothes/outer/o10.png" 
+    - id: "o11"
+      name: "o11"
+      image: "/clothes/outer/o11.png"            

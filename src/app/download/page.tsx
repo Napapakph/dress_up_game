@@ -1,33 +1,33 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useState, Suspense } from 'react';
+import Image from 'next/image';
 import { Download, AlertTriangle } from 'lucide-react';
 
 function DownloadContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
-  const [dataUrl, setDataUrl] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!id) {
-      setError('No download ID provided.');
-      return;
+  const [dataUrl] = useState<string | null>(() => {
+    if (!id) return null;
+    try {
+      return localStorage.getItem(`dressup_export_${id}`);
+    } catch {
+      return null;
     }
-    
-    // Try to get from localStorage
+  });
+
+  const [error] = useState<string | null>(() => {
+    if (!id) return 'No download ID provided.';
     try {
       const stored = localStorage.getItem(`dressup_export_${id}`);
-      if (stored) {
-        setDataUrl(stored);
-      } else {
-        setError('Download link expired or not found on this device.');
-      }
-    } catch (_e) {
-      setError('Could not access local storage.');
+      if (!stored) return 'Download link expired or not found on this device.';
+      return null;
+    } catch {
+      return 'Could not access local storage.';
     }
-  }, [id]);
+  });
 
   const handleDownload = () => {
     if (!dataUrl) return;
@@ -58,7 +58,7 @@ function DownloadContent() {
         <h1 className="text-2xl font-bold text-indigo-700 mb-6">Your Design is Ready!</h1>
         
         <div className="relative aspect-[3/4] w-full bg-gray-100 rounded-lg overflow-hidden mb-6 border border-gray-200">
-           <img src={dataUrl} alt="Design Preview" className="w-full h-full object-contain" />
+           <Image src={dataUrl} alt="Design Preview" fill className="object-contain" unoptimized />
         </div>
 
         <button 

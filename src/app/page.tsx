@@ -34,7 +34,7 @@ export default function DressUpPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('top');
   
   const [placedItems, setPlacedItems] = useState<PlacedItem[]>([]);
-  const [background, setBackground] = useState<{ type: 'color' | 'image', value: string }>({ type: 'color', value: '#ffffff' });
+  const [background, setBackground] = useState<{ type: 'color' | 'image', value: string }>({ type: 'image', value: 'bg.jpg' });
 
   // For export logic
   const stageRef = useRef<HTMLDivElement>(null);
@@ -677,6 +677,7 @@ export default function DressUpPage() {
                     onUpdate={handleUpdateItem}
                     onRemove={handleRemoveItem}
                     onSelect={handleSelect}
+                    onDeselect={() => setSelectedId(null)}
                     selectedId={selectedId}
                     scale={scale}
                 />

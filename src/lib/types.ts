@@ -40,10 +40,20 @@ export type PlacedItem = Item & {
   rotation: number;
 };
 
+export type CategoryDefaults = {
+  width?: number;
+  height?: number;
+  scale?: number;
+  layer?: number;
+  anchor?: string;
+  offset?: { x: number; y: number };
+};
+
 export type WardrobeData = {
   version: number;
   characters: Record<string, Character>;
-  categoryOrder: string[]; 
+  categoryOrder: string[];
+  categoryDefaults?: Record<string, CategoryDefaults>;
   items: Record<string, RawItem[]>;
 };
 

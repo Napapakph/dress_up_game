@@ -10,9 +10,10 @@ interface CharacterCanvasProps {
   onUpdate: (uuid: string, data: Partial<PlacedItem>) => void;
   onRemove: (uuid: string) => void;
   onSelect?: (uuid: string) => void;
+  onDeselect?: () => void;
   selectedId?: string | null;
   className?: string;
-  scale?: number; // Add scale prop
+  scale?: number;
 }
 
 // Sub-component to manage nodeRef for Draggable (required for React 18/19 strict mode)
@@ -143,10 +144,12 @@ const DraggableItem = ({
                     height: 0 
                 }}
                 onMouseDown={(e) => {
+                    e.stopPropagation();
                     if (onSelect) onSelect(item.uuid);
                 }}
                 onTouchStart={(e) => {
-                   if (onSelect) onSelect(item.uuid);
+                    e.stopPropagation();
+                    if (onSelect) onSelect(item.uuid);
                 }}
             >
                 {/* Visual Wrapper: Handles Frame Size & Scaling */}
@@ -169,8 +172,9 @@ const DraggableItem = ({
                         style={{
                             maxWidth: 'none', 
                             maxHeight: 'none',
-                            width: item.width ? 'auto' : 'auto', 
-                            height: item.height ? 'auto' : 'auto',
+                            width: item.width ? '100%' : 'auto', 
+                            height: item.height ? '100%' : 'auto',
+                            objectFit: (item.width || item.height) ? 'contain' : undefined,
                         }}
                         draggable={false} 
                     />
@@ -193,9 +197,8 @@ const DraggableItem = ({
                         <X size={14} />
                     </button>
 
-                     {/* Resize Handles (Corners) & Rotation - Only when selected */}
-                     {isSelected && (
-                        <>
+                     {/* Resize Handles (Corners) & Rotation - Visible on hover and selected */}
+                     <div className={`transition-opacity ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                             {/* Rotation Handle (Top Center) */}
                             <div 
                                 className="absolute -top-8 left-1/2 -translate-x-1/2 w-6 h-6 bg-white border-2 border-indigo-500 rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing z-50 shadow-sm pointer-events-auto"
@@ -207,7 +210,7 @@ const DraggableItem = ({
                             {/* Connector line for rotation */}
                             <div className="absolute -top-4 left-1/2 w-0.5 h-4 bg-indigo-500 -translate-x-1/2" />
 
-                            {/* Resize Handles - Top-Right removed to avoid overlap with X */}
+                            {/* Resize Handles */}
                             {['top-left', 'bottom-left', 'bottom-right'].map((pos) => (
                                 <div
                                     key={pos}
@@ -220,8 +223,7 @@ const DraggableItem = ({
                                     onTouchStart={handleResizeStart}
                                 />
                             ))}
-                        </>
-                    )}
+                     </div>
                 </div>
             </div>
         </Draggable>
@@ -229,7 +231,7 @@ const DraggableItem = ({
 };
 
 const CharacterCanvas = React.forwardRef<HTMLDivElement, CharacterCanvasProps>(
-  ({ character, items, onUpdate, onRemove, onSelect, selectedId, className, scale = 1 }, ref) => {
+  ({ character, items, onUpdate, onRemove, onSelect, onDeselect, selectedId, className, scale = 1 }, ref) => {
     
     // Sort items by layer
     const sortedItems = useMemo(() => {
@@ -250,8 +252,10 @@ const CharacterCanvas = React.forwardRef<HTMLDivElement, CharacterCanvasProps>(
         style={{
           width: `${width}px`,
           height: `${height}px`,
-          backgroundColor: 'transparent', // Transparent to show parent bg
+          backgroundColor: 'transparent',
         }}
+        onMouseDown={() => { if (onDeselect) onDeselect(); }}
+        onTouchStart={() => { if (onDeselect) onDeselect(); }}
       >
         {/* Base Character */}
         <img 
